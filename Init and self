@@ -1,0 +1,32 @@
+# self is how Python keeps track of which one you're talking about at that moment.
+# When broker1.summary() runs, self is broker1.
+# When broker2.summary() runs, self is broker2.
+
+lots = float(input('Lot size: '))
+class Broker():
+	def __init__(self, name, spread_pips, commission_per_lot, min_deposit):
+		self.name = name
+		self.spread_pips = spread_pips
+		self.commission_per_lot = commission_per_lot
+		self.min_deposit = min_deposit
+	def total_cost(self, lots):
+		spread_cost = self.spread_pips * 10 * lots
+		commission_cost = self.commission_per_lot * lots
+		total = spread_cost + commission_cost
+		return total
+	def summary(self, lots):
+		total = self.total_cost(lots)
+		print(f'{self.name} has a total cost of {total}.')
+
+broker1 = Broker('Exness', 20, 10, 200) # Editable
+broker2 = Broker('IC-Markets', 11, 2, 100) # Editable
+
+broker1.summary(lots)
+broker2.summary(lots)
+
+if broker1.total_cost(lots) >= broker2.total_cost(lots):
+	difference = broker1.total_cost(lots) - broker2.total_cost(lots)
+	print(f'The cheapest broker is {broker2.name}. It is cheaper by ${difference}')
+else:
+	difference = broker2.total_cost(lots) - broker1.total_cost(lots)
+	print(f'The cheapest broker is {broker1.name}. It is cheaper by ${difference}')
